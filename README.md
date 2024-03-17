@@ -1,39 +1,55 @@
-1. Data Collection 
-Historical Stock Prices
-Approach 1 (Yfinance): Use yfinance to fetch the historical stock prices for the tickers of interest for the entire year of 2023. This method allows for an easy bulk download of Adjusted Close prices, which you've labeled as 'End' in your requirements.
+# Stock Prediction Project
+This repository contains the code and data for a stock prediction project, leveraging historical stock prices, EPS data, and options data to predict stock performance.
 
-Approach 2 (Alpha Vantage): Use Alpha Vantage for a more detailed approach, especially if you need adjusted daily data that includes dividends and splits adjustments. Remember, some detailed data might require a premium subscription.
+## Project Structure
+data_processing_and_ML: This directory contains scripts and Jupyter notebooks for data collection, processing, and machine learning model training.
+pickle: This directory includes serialized Python objects that store pre-trained models and processed datasets for quick loading.
+app: The Streamlit application for interactive data analysis and stock prediction visualization is stored here.
 
-EPS Data
-Use Alpha Vantage to gather EPS data for all tickers in your list, focusing on 2023 data and filtering for quarterly earnings.
+## Data Collection
+The project utilizes various financial APIs to collect data:
 
-Earnings Date Data
-Utilize the confirmed earnings dates CSV file you've mentioned or the API endpoint to gather earnings date information for 2023. Ensure to adjust for effective stock movement dates based on whether the earnings were announced pre-market or post-market.
-
-Options Data and Greeks
-Since you've mentioned Polygon.io as a source, you can fetch options data including Calls and Puts at the money for the nearest expiration. This will require using Polygon.io's API.
-
-
-
-2. Data Organization and Database Preparation
-MySQL Database Setup: Establish a MySQL database where you will store all the fetched data. You'll need tables for historical stock prices, EPS data, earnings dates, and options data.
-
-Data Import: For each data source, write scripts (preferably in Python) to parse the data (if it's not already in a suitable format) and then insert it into the corresponding tables in your MySQL database. This might involve creating CSV files from the data fetched via APIs and then importing these CSV files into MySQL.
-
-SQL Queries: Develop SQL queries to extract the necessary columns from your datasets. This will likely involve JOIN operations to merge data from different tables based on common identifiers (like ticker symbols and dates).
-
-Database Scripting: Wrap these operations in a Python script using libraries like mysql-connector-python or SQLAlchemy to automate the data fetching, processing, and database operations.
+- Historical stock prices from yfinance and Alpha Vantage
+- EPS data and earnings date information from Alpha Vantage
+- Options chain data from Polygon.io
 
 
+![image](https://github.com/sjrpokemon/stock-prediction-project/assets/128329266/c8153925-b92a-41a9-8a88-f01689e20be5)
+## Running the Streamlit App
+The main.py script in the app directory is the entry point for running the Streamlit application. To run the app locally, follow these steps:
 
-3. Action Plan
-Data Collection Scripts: Begin by writing Python scripts to collect data from yfinance, Alpha Vantage, the confirmed earnings CSV/API, and Polygon.io. Focus on collecting data for the tickers listed in your options list.
+1. Ensure you have Streamlit installed. If not, install it using pip:
 
-Database Schema Design: Design your MySQL database schema based on the types of data you're collecting. This includes deciding on the tables you need, the columns for each table, and the data types of each column.
+pip install streamlit
+2. Navigate to the app directory in your command line interface.
+3. Run the Streamlit app with the command:
+streamlit run main.py
 
-Database Connectivity and Data Insertion: Write scripts to connect to your MySQL database and insert the collected data. Make sure to handle exceptions and errors to ensure data integrity.
+## Features
+- Ticker Selection: Enter a ticker symbol or select one from the dropdown menu to view its earnings data.
+- Earnings Prediction: Click 'Predict Earnings' to view the predicted earnings for the selected ticker based on the trained XGBoost regression model.
 
-Data Extraction and Analysis Prep: Once your data is in the database, write SQL queries to extract and combine the data needed for your analysis. This might include merging historical prices with EPS data and earnings dates to analyze stock performance around earnings announcements.
+## Data Preprocessing and Model Training
+The model training and data preprocessing are done in the data_processing_and_ML directory. The pre-trained model and processed data are saved using pickle and loaded into the Streamlit app for predictions.
 
-Automation and Maintenance: Ensure your scripts are well-documented and easy to run. Consider setting up a schedule for regular data updates, especially if your analysis needs to be up-to-date or repeated in the future.
+## Visualization
+The app visualizes the actual earnings and predicted values using matplotlib, offering a clear graphical representation of the model's performance.
 
+## Dependencies
+The project requires the following Python libraries:
+
+pandas
+numpy
+xgboost
+matplotlib
+pickle
+sklearn
+
+Ensure all dependencies are installed using pip:
+pip install pandas numpy xgboost matplotlib scikit-learn
+
+Contributing
+Contributions are welcome! If you have suggestions or improvements, please fork the repository and create a pull request.
+
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
